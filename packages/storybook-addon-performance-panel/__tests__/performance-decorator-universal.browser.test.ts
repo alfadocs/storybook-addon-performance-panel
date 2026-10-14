@@ -5,7 +5,6 @@
  * involved. The decorator receives a plain storyFn that returns a
  * DOM string or element — no JSX, no React rendering.
  */
-import type {StoryContext} from 'storybook/internal/types'
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest'
 
 import {OverheadTelemetry} from '../core/overhead-telemetry'
@@ -32,12 +31,15 @@ const {withPerformanceMonitor} = await import('../decorators/universal')
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
 
-function makeCtx(overrides: Partial<StoryContext> = {}): StoryContext {
+type DecoratorContext = Parameters<typeof withPerformanceMonitor>[1]
+
+function makeCtx(overrides: Partial<DecoratorContext> = {}): DecoratorContext {
   return {
     id: 'components-button--primary',
     parameters: {},
+    argTypes: {},
     ...overrides,
-  } as StoryContext
+  } as DecoratorContext
 }
 
 // ── Tests ───────────────────────────────────────────────────────────────────
