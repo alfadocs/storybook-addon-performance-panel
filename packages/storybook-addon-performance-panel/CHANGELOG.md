@@ -1,5 +1,13 @@
 # @github-ui/storybook-addon-performance-panel
 
+## 1.3.1
+
+### Patch Changes
+
+- [#198](https://github.com/github/storybook-addon-performance-panel/pull/198) [`4767b3d`](https://github.com/github/storybook-addon-performance-panel/commit/4767b3d9b3e1a0d13a9132c4764db38c450358f9) Thanks [@dependabot](https://github.com/apps/dependabot)! - Update transitive brace-expansion dependencies used by the development and build tools.
+
+- [#201](https://github.com/github/storybook-addon-performance-panel/pull/201) [`10e6b26`](https://github.com/github/storybook-addon-performance-panel/commit/10e6b26bb089196d7909d3facd7c67328708f5b4) Thanks [@dependabot](https://github.com/apps/dependabot)! - Update the Storybook development environment to 11.0.0-alpha.6 while retaining compatibility with Storybook 10 and 11.
+
 ## 1.3.0
 
 ### Minor Changes
