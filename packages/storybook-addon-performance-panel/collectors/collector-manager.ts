@@ -346,7 +346,9 @@ export class CollectorManager {
       maxPointerFrameInterval,
       pointerFrameJitter: input.paintJitter,
       initialPaintMilestones: paint.paintCount,
+      // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
       paintTime: pointerFrameInterval,
+      // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
       maxPaintTime: maxPointerFrameInterval,
       inputJitter: input.inputJitter,
       memoryUsedMB: memory.lastMemoryMB,
@@ -371,6 +373,7 @@ export class CollectorManager {
       lastLoaf: loaf.lastLoaf,
       worstLoaf: loaf.worstLoaf,
       // Continue with other metrics
+      // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
       droppedFrames: frame.inferredDroppedFrames,
       frameJitter: frame.frameJitter,
       frameStability: frame.frameStability,
@@ -396,20 +399,28 @@ export class CollectorManager {
       renderCascades: react.nestedUpdateCount,
       domElements: state.domElements,
       // Deprecated compatibility field; global forced-reflow instrumentation was removed.
+      // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
       forcedReflowCount: 0,
+      // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
       eventListenerCount: 0, // Not currently tracked by collectors
+      // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
       observerCount: 0, // Not currently tracked by collectors
       cssVarChanges: style.cssVarChanges,
       scriptResourceLoadTime,
       scriptResourceCount: paint.scriptResourceCount,
       scriptResources: paint.scriptResources,
+      // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
       scriptEvalTime: scriptResourceLoadTime,
       gcPressure: Math.round(memory.gcPressure * 100) / 100,
+      // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
       paintCount: paint.paintCount,
+      // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
       paintJitter: input.paintJitter,
       layerPromotionCandidates: paint.compositorLayers,
+      // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
       compositorLayers: paint.compositorLayers,
       domMutationsPerSecond,
+      // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
       domMutationsPerFrame: domMutationsPerSample,
       slowReactUpdates: react.slowReactUpdates,
       reactP95Duration: computeP95(react.reactUpdateDurations),

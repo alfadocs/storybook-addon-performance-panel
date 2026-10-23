@@ -737,6 +737,7 @@ export const DEFAULT_METRICS: PerformanceMetrics = {
   observedFrameIntervals: 0,
   inferredDroppedFrames: 0,
   excludedFrameIntervals: 0,
+  // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
   droppedFrames: 0,
   frameJitter: 0,
   frameStability: 100,
@@ -755,9 +756,13 @@ export const DEFAULT_METRICS: PerformanceMetrics = {
   maxPointerFrameInterval: 0,
   pointerFrameJitter: 0,
   initialPaintMilestones: 0,
+  // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
   paintTime: 0,
+  // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
   maxPaintTime: 0,
+  // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
   paintCount: 0,
+  // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
   paintJitter: 0,
   memoryUsedMB: null,
   memoryDeltaMB: null,
@@ -788,8 +793,10 @@ export const DEFAULT_METRICS: PerformanceMetrics = {
   layoutShiftCount: 0,
   currentSessionCLS: 0,
   layoutShiftAttribution: [],
+  // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
   forcedReflowCount: 0,
   domMutationsPerSecond: 0,
+  // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
   domMutationsPerFrame: 0,
   cssVarChanges: 0,
   reactRenderCount: 0,
@@ -804,10 +811,14 @@ export const DEFAULT_METRICS: PerformanceMetrics = {
   scriptResourceLoadTime: 0,
   scriptResourceCount: 0,
   scriptResources: [],
+  // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
   scriptEvalTime: 0,
+  // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
   eventListenerCount: 0,
+  // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
   observerCount: 0,
   layerPromotionCandidates: null,
+  // eslint-disable-next-line @typescript-eslint/no-deprecated -- Retained for backward compatibility.
   compositorLayers: null,
   // Element Timing
   elementTimingSupported: true, // Assume supported until told otherwise
