@@ -91,6 +91,22 @@ export function handleInspectElement(selector: string): void {
 }
 
 // ============================================================================
+// Headless Collection
+// ============================================================================
+
+/**
+ * When true, cores collect metrics as soon as they start instead of waiting
+ * for the panel to become visible. Test runners have no manager UI, so
+ * without this the collectors would never run. See `../test.ts`.
+ */
+let headlessCollection = false
+
+/** Enable or disable collection without a visible panel. */
+export function setHeadlessCollection(enabled: boolean): void {
+  headlessCollection = enabled
+}
+
+// ============================================================================
 // Performance Monitor Core
 // ============================================================================
 
@@ -130,7 +146,10 @@ export class PerformanceMonitorCore {
     })
   }
 
-  /** Set up channel listeners. Browser collectors begin when the panel becomes visible. */
+  /**
+   * Set up channel listeners. Browser collectors begin when the panel becomes
+   * visible, or straight away when headless collection is enabled.
+   */
   start(): void {
     const channel = addons.getChannel()
     this.panelVisible = false
@@ -174,6 +193,7 @@ export class PerformanceMonitorCore {
         this.#startLiveUpdates(emitMetrics)
       } else {
         this.#stopLiveUpdates()
+        if (headlessCollection) return
         this.#stopContainerObservation()
         this.manager.stop()
       }
@@ -198,6 +218,11 @@ export class PerformanceMonitorCore {
         channel.off(PERF_EVENTS.INSPECT_ELEMENT, handleInspectElement)
       },
     ]
+
+    if (headlessCollection) {
+      this.manager.start()
+      this.#startContainerObservation()
+    }
 
     channel.emit(PERF_EVENTS.REQUEST_PANEL_VISIBILITY)
   }
@@ -226,6 +251,10 @@ export class PerformanceMonitorCore {
     performanceStore.resetAll()
   }
 
+  get #collecting(): boolean {
+    return this.panelVisible || headlessCollection
+  }
+
   #startLiveUpdates(emitMetrics: () => void): void {
     this.metricsIntervalId ??= setInterval(emitMetrics, UPDATE_INTERVAL_MS)
     this.sparklineIntervalId ??= setInterval(() => {
@@ -251,7 +280,7 @@ export class PerformanceMonitorCore {
   }
 
   #startContainerObservation(): void {
-    if (!this.panelVisible || !this.containerElement || this.containerCleanup) return
+    if (!this.#collecting || !this.containerElement || this.containerCleanup) return
     this.containerCleanup = this.manager.observeContainer(this.containerElement)
   }
 
@@ -262,7 +291,7 @@ export class PerformanceMonitorCore {
 
   /**
    * Register a DOM container for element counting and mutation tracking.
-   * Observation is active only while the panel is visible.
+   * Observation is active only while the panel is visible or headless collection is enabled.
    */
   observeContainer(element: HTMLElement): () => void {
     if (this.containerElement !== element) {
