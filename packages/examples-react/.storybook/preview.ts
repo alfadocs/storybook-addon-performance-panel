@@ -15,7 +15,7 @@ import '@primer/primitives/dist/css/functional/themes/dark-dimmed.css'
 import '@primer/primitives/dist/css/functional/themes/dark-high-contrast.css'
 import './primer-base.css'
 
-import addonPerformancePanel from '@github-ui/storybook-addon-performance-panel'
+import addonPerformancePanel from '@alfadocs/storybook-addon-performance-panel'
 import addonDocs from '@storybook/addon-docs'
 import {definePreview} from '@storybook/react-vite'
 import {MINIMAL_VIEWPORTS} from 'storybook/viewport'

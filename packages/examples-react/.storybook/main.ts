@@ -4,7 +4,7 @@ import type {StorybookConfig} from '@storybook/react-vite'
 const config: StorybookConfig = {
   stories: ['../stories/**/*.stories.@(ts|tsx)', '../stories/**/*.mdx'],
   framework: '@storybook/react-vite',
-  addons: ['@github-ui/storybook-addon-performance-panel', '@storybook/addon-docs'],
+  addons: ['@alfadocs/storybook-addon-performance-panel', '@storybook/addon-docs'],
   features: {
     ...SHARED_FEATURES,
     experimentalCodeExamples: true,
