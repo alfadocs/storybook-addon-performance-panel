@@ -1,5 +1,11 @@
 # @github-ui/storybook-addon-performance-panel
 
+## 1.4.0
+
+### Minor Changes
+
+- Alfadocs fork, published as `@alfadocs/storybook-addon-performance-panel`. Adds a `./test` entry for test runners and CI: `enableHeadlessCollection()` collects metrics without a visible panel, and `getStoryMetrics()` returns the active story's metrics and React Profiler data. Proposed upstream in github/storybook-addon-performance-panel#213.
+
 ## 1.3.1
 
 ### Patch Changes

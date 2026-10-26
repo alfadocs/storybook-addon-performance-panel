@@ -1,5 +1,7 @@
 # @github-ui/storybook-addon-performance-panel
 
+> **Alfadocs fork.** This is [`github/storybook-addon-performance-panel`](https://github.com/github/storybook-addon-performance-panel) with one addition, the `./test` entry for test runners and CI (see [Test Runners and CI](#test-runners-and-ci)), proposed upstream in [#213](https://github.com/github/storybook-addon-performance-panel/pull/213). Install it as `@alfadocs/storybook-addon-performance-panel` and replace `@github-ui/` with `@alfadocs/` in the examples below. MIT licence, copyright GitHub, Inc.
+
 A Storybook addon that provides real-time performance monitoring for stories. It displays comprehensive metrics including frame timing, input responsiveness, memory usage, React profiling, and more.
 
 ## Installation
