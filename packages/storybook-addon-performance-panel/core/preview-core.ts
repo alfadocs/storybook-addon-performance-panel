@@ -91,19 +91,39 @@ export function handleInspectElement(selector: string): void {
 }
 
 // ============================================================================
-// Headless Collection
+// Shared State
 // ============================================================================
 
 /**
- * When true, cores collect metrics as soon as they start instead of waiting
- * for the panel to become visible. Test runners have no manager UI, so
- * without this the collectors would never run. See `../test.ts`.
+ * Module state shared through `globalThis`. Bundlers can load this module
+ * more than once in one page: Storybook imports the preview annotations by
+ * file path, while a test setup file imports `./test` by package name and
+ * Vite may pre-bundle that into a separate copy. Every copy must see the
+ * same active core and headless flag.
  */
-let headlessCollection = false
+interface SharedPreviewState {
+  /** The active core, see {@link getActiveCore} */
+  activeCore: PerformanceMonitorCore | null
+  /**
+   * When true, cores collect metrics as soon as they start instead of
+   * waiting for the panel to become visible. Test runners have no manager
+   * UI, so without this the collectors would never run. See `../test.ts`.
+   */
+  headlessCollection: boolean
+}
+
+const SHARED_STATE_KEY = Symbol.for('@github-ui/storybook-addon-performance-panel/preview-core')
+
+const shared: SharedPreviewState = ((globalThis as Record<symbol, SharedPreviewState | undefined>)[SHARED_STATE_KEY] ??=
+  {activeCore: null, headlessCollection: false})
+
+// ============================================================================
+// Headless Collection
+// ============================================================================
 
 /** Enable or disable collection without a visible panel. */
 export function setHeadlessCollection(enabled: boolean): void {
-  headlessCollection = enabled
+  shared.headlessCollection = enabled
 }
 
 // ============================================================================
@@ -193,7 +213,7 @@ export class PerformanceMonitorCore {
         this.#startLiveUpdates(emitMetrics)
       } else {
         this.#stopLiveUpdates()
-        if (headlessCollection) return
+        if (shared.headlessCollection) return
         this.#stopContainerObservation()
         this.manager.stop()
       }
@@ -219,7 +239,7 @@ export class PerformanceMonitorCore {
       },
     ]
 
-    if (headlessCollection) {
+    if (shared.headlessCollection) {
       this.manager.start()
       this.#startContainerObservation()
     }
@@ -252,7 +272,7 @@ export class PerformanceMonitorCore {
   }
 
   get #collecting(): boolean {
-    return this.panelVisible || headlessCollection
+    return this.panelVisible || shared.headlessCollection
   }
 
   #startLiveUpdates(emitMetrics: () => void): void {
@@ -313,18 +333,15 @@ export class PerformanceMonitorCore {
 // ============================================================================
 
 /**
- * The currently active core instance.
+ * Get the currently active performance monitoring core (if any).
  *
  * Only one story is active at a time in Storybook's preview, so a single
  * active core suffices. The universal decorator sets this when a story
  * renders, and the React profiler decorator reads it to report render
  * metrics to the same core.
  */
-let _activeCore: PerformanceMonitorCore | null = null
-
-/** Get the currently active performance monitoring core (if any). */
 export function getActiveCore(): PerformanceMonitorCore | null {
-  return _activeCore
+  return shared.activeCore
 }
 
 /**
@@ -332,8 +349,8 @@ export function getActiveCore(): PerformanceMonitorCore | null {
  * Pass `null` to clear without setting a replacement.
  */
 export function setActiveCore(core: PerformanceMonitorCore | null): void {
-  if (_activeCore && _activeCore !== core) {
-    _activeCore.stop()
+  if (shared.activeCore && shared.activeCore !== core) {
+    shared.activeCore.stop()
   }
-  _activeCore = core
+  shared.activeCore = core
 }

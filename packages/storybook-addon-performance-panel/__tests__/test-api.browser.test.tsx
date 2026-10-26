@@ -126,3 +126,28 @@ describe('test-runner API', () => {
     expect(profiler?.reactMountDuration).toBeGreaterThanOrEqual(0)
   })
 })
+
+describe('test-runner API across module copies', () => {
+  afterEach(() => {
+    disableHeadlessCollection()
+    getActiveCore()?.stop()
+    setActiveCore(null)
+  })
+
+  it('shares the active core and headless flag with a second copy of the core module', async () => {
+    // A bundler can load the preview core twice (e.g. a pre-bundled `./test`
+    // beside preview annotations imported by path). A query string makes
+    // Vite evaluate a separate copy of the module.
+    // @ts-expect-error -- query-string specifier has no declaration of its own
+    const copy = (await import('../core/preview-core?copy')) as typeof import('../core/preview-core')
+    copy.setHeadlessCollection(true)
+
+    withPerformanceMonitor(
+      vi.fn(() => ''),
+      makeCtx('components-copy--default'),
+    )
+
+    expect(copy.getActiveCore()).toBe(getActiveCore())
+    expect(getActiveCore()?.manager.isRunning).toBe(true)
+  })
+})
